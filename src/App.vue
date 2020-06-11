@@ -1,9 +1,13 @@
 <template>
   <div id="app">
-    <h1>oo</h1>
     <router-view/>
   </div>
 </template>
 
 <style lang="less">
+.oo{
+  background-color: red;
+  width: 200px;
+  height: 400px;
+}
 </style>
