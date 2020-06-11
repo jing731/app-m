@@ -13,6 +13,7 @@
 :show-error = 'false'
 :show-error-message = 'false'
  validate-first
+ ref="login-form"
 @submit="Onlogin"
 @failed="OnFailed"
 >
@@ -20,6 +21,7 @@
     v-model="user.mobile"
     left-icon="smile-o"
     placeholder="请输入手机号"
+    name='mobile'
     :rules="FromRules.mobile"
   />
   <van-field
@@ -27,10 +29,11 @@
     clearable
     left-icon="music-o"
     placeholder="请输入验证码"
+    name='code'
     :rules="FromRules.code"
   >
     <template #button>
-    <van-button size="small" round>发送验证码</van-button>
+    <van-button size="small" round @click.prevent="OnSendSms">发送验证码</van-button>
   </template>
   </van-field>
   <!-- 登录start -->
@@ -43,7 +46,7 @@
     </div>
 </template>
 <script>
-import { login } from '@/api/user'
+import { login, OnSendSms } from '@/api/user'
 export default {
   name: 'LoginIndex',
   components: {},
@@ -98,6 +101,28 @@ export default {
       if (error.errors[0]) {
         this.$toast({
           message: error.errors[0].message,
+          position: 'top'
+        })
+      }
+    },
+    async OnSendSms () { // 发送验证码
+      // 由于点击发送验证码按钮，会默认触发验证行为，所以采用单独验证的功能
+      try {
+        const validateres = await this.$refs['login-form'].validate('mobile')
+        console.log(validateres)
+        const Smsres = await OnSendSms(this.user.mobile)
+        console.log(Smsres)
+      } catch (error) {
+        let message = ''
+        if (error && error.request && error.request.status === 429) {
+          message = '发送太频繁了，请稍后再试'
+        } else if (error.name === 'mobile') {
+          message = error.message
+        } else {
+          message = '发送失败，请稍后再试'
+        }
+        this.$toast({
+          message,
           position: 'top'
         })
       }
