@@ -21,6 +21,7 @@
     v-model="user.mobile"
     left-icon="smile-o"
     placeholder="请输入手机号"
+    center
     name='mobile'
     :rules="FromRules.mobile"
   />
@@ -28,12 +29,14 @@
     v-model="user.code"
     clearable
     left-icon="music-o"
+    center
     placeholder="请输入验证码"
     name='code'
     :rules="FromRules.code"
   >
     <template #button>
-    <van-button size="small" round @click.prevent="OnSendSms">发送验证码</van-button>
+    <van-count-down :time="1000 * 5" format="ss s" v-if="isTimeShow" @finish="isTimeShow = false" />
+    <van-button size="small" round @click.prevent="OnSendSms" v-else :loading='isSmsLoading'>发送验证码</van-button>
   </template>
   </van-field>
   <!-- 登录start -->
@@ -74,7 +77,9 @@ export default {
             pattern: /^\d{6}$/, message: '请输入正确的手机号'
           }
         ]
-      }
+      },
+      isTimeShow: false, // 默认倒计时不会显示
+      isSmsLoading: false // 控制发送按钮的loading状态
     }
   },
   computed: {},
@@ -110,7 +115,11 @@ export default {
       try {
         const validateres = await this.$refs['login-form'].validate('mobile')
         console.log(validateres)
+        // 验证通过，请求发送验证码
+        this.isSmsLoading = true
         const Smsres = await OnSendSms(this.user.mobile)
+        // 发送验证码成功后，启动倒计时
+        this.isTimeShow = true
         console.log(Smsres)
       } catch (error) {
         let message = ''
@@ -126,6 +135,8 @@ export default {
           position: 'top'
         })
       }
+      // 无论发送成功还是失败，都关闭loading
+      this.isSmsLoading = false
     }
   }
 }
