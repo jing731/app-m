@@ -12,7 +12,10 @@
 <van-form
 :show-error = 'false'
 :show-error-message = 'false'
-@submit="Onlogin">
+ validate-first
+@submit="Onlogin"
+@failed="OnFailed"
+>
   <van-field
     v-model="user.mobile"
     left-icon="smile-o"
@@ -57,7 +60,7 @@ export default {
             required: true, message: '请填写用户名'
           },
           {
-            pattern: /^1[3|5|7|8|9]\d$/, message: '请输入正确的手机号'
+            pattern: /^1[3|5|7|8|9]\d{9}$/, message: '请输入正确的手机号'
           }
         ],
         code: [
@@ -89,6 +92,14 @@ export default {
       } catch (err) {
         console.log(err)
         this.$toast.fail('登录失败')
+      }
+    },
+    OnFailed (error) { // 函数的参数 就是错误的类型
+      if (error.errors[0]) {
+        this.$toast({
+          message: error.errors[0].message,
+          position: 'top'
+        })
       }
     }
   }
