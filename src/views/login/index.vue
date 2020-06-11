@@ -54,12 +54,18 @@ export default {
   mounted () {},
   methods: {
     async Onlogin () {
+      this.$toast.loading({
+        message: '加载中...',
+        forbidClick: true, // 为true时，会默认不可点击屏幕
+        duration: 0 // 加载时长，为0时会一直加载
+      })
       try {
         const res = await login(this.user)
         console.log(res)
+        this.$toast.success('登录成功')
       } catch (err) {
         console.log(err)
-        console.log('登录错误')
+        this.$toast.fail('登录失败')
       }
     }
   }
