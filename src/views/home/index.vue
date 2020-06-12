@@ -1,5 +1,6 @@
 <template>
   <div class="home-container">
+    <!-- 头部部分开始 -->
     <!-- 注意，可以支持插槽，slot就是插槽 -->
     <van-nav-bar
       class="app-nav-bar"
@@ -10,21 +11,45 @@
     round
     slot="title">搜索</van-button>
     </van-nav-bar>
+    <!-- 头部部分结束 -->
+    <!-- 标签页滚动 -->
+    <van-tabs v-model="active">
+    <van-tab
+    :title="channel.name"
+    v-for="channel in loadChanneles"
+    :key="channel.id"
+    >{{ channel.name }}的内容
+      </van-tab>
+    </van-tabs>
+    <!-- 标签页滚动结束 -->
   </div>
 </template>
 <script>
+import { GetChannerls } from '@/api/user'
 export default {
   name: 'HomeIndex',
   components: {},
   props: {},
   data () {
-    return {}
+    return {
+      active: 2,
+      loadChanneles: [] // 列表频道的数据
+    }
   },
   computed: {},
   watch: {},
-  created () {},
+  created () {
+    this.loadChannels()
+  },
   mounted () {},
-  methods: {}
+  methods: {
+    async loadChannels () {
+      // 加载请求文章列表数据
+      const loadChannelsRes = await GetChannerls()
+      console.log(loadChannelsRes)
+      this.loadChanneles = loadChannelsRes.data.data.channels
+    }
+  }
 }
 </script>
 <style scoped lang="less">

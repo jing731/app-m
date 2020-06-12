@@ -96,7 +96,7 @@ export default {
         })
         .catch(() => {
         // 失败
-          this.$store.commit('setUser', null)
+          // this.$store.commit('setUser', null)
         })
     }
   }

@@ -7,7 +7,9 @@ const request = axios.create({
 // 请求拦截器
 request.interceptors.request.use(function (config) {
   // config参数就是请求的对象
+  // console.log(123)
   // console.log(config)
+  // console.log(store.state)
   const { user } = store.state
   // 如果用户登录，才会有token数据
   if (user) {
