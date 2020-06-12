@@ -2,12 +2,12 @@
   <div class="my-container">
   <!-- 头部部分 -->
   <van-cell-group class="my-info" v-if="user">
-  <van-cell class="base-info" title="单元格" value="内容" center :border='false'>
+  <van-cell class="base-info" center :border='false'>
   <van-image
   class="avatar"
   slot="icon"
-  width="30" height="30" round fit='cover' src="https://img.yzcdn.cn/vant/cat.jpeg" />
-  <div slot="title" class="name">昵称</div>
+  width="30" height="30" round fit='cover' :src="CurrentUser.photo"/>
+  <div slot="title" class="name">{{ CurrentUser.name }}</div>
   <van-button size='small' round class="updata-btn">编辑资料</van-button>
   </van-cell>
   </van-cell-group>
@@ -23,19 +23,19 @@
   <!-- 中间部分 -->
   <van-grid class="data-info" :border='false'>
   <van-grid-item class="data-info-item"><div slot="text">
-    <div class="count">123</div>
+    <div class="count">{{ CurrentUser.art_count }}</div>
     <div class="text">头条</div>
     </div></van-grid-item>
   <van-grid-item><div slot="text">
-    <div class="count">123</div>
+    <div class="count">{{ CurrentUser.follow_count }}</div>
     <div class="text">关注</div>
     </div></van-grid-item>
   <van-grid-item><div slot="text">
-    <div class="count">123</div>
+    <div class="count">{{ CurrentUser.fans_count }}</div>
     <div class="text">粉丝</div>
     </div></van-grid-item>
   <van-grid-item><div slot="text">
-    <div class="count">123</div>
+    <div class="count">{{ CurrentUser.like_count }}</div>
     <div class="text">获赞</div>
     </div></van-grid-item>
   </van-grid>
@@ -59,21 +59,31 @@
 </template>
 <script>
 import { mapState } from 'vuex'
+import { GetCurrentUser } from '@/api/user'
 export default {
   name: 'MyIndex',
   components: {},
   props: {},
   data () {
-    return {}
+    return {
+      CurrentUser: {}
+    }
   },
   computed: {
     // 将容器中的数据映射到本地
     ...mapState(['user'])
   },
   watch: {},
-  created () {},
+  created () {
+    this.OnCurrentUser()
+  },
   mounted () {},
   methods: {
+    async OnCurrentUser () {
+      const { data } = await GetCurrentUser()
+      // console.log(data)
+      this.CurrentUser = data.data
+    },
     // 点击之后弹出弹框，询问是否需要退出？
     OutLogin () {
       this.$dialog.confirm({
