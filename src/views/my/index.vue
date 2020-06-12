@@ -1,7 +1,7 @@
 <template>
   <div class="my-container">
   <!-- 头部部分 -->
-  <van-cell-group class="my-info">
+  <van-cell-group class="my-info" v-if="user">
   <van-cell class="base-info" title="单元格" value="内容" center :border='false'>
   <van-image
   class="avatar"
@@ -12,6 +12,14 @@
   </van-cell>
   </van-cell-group>
   <!-- 头部结尾 -->
+  <!-- 未登录部分 -->
+  <div class="not-login" v-else>
+    <div>
+      <img @click="$router.push('/my')" src="./banner.png" class="mobile">
+    </div>
+    <div class="text">登录/注册</div>
+  </div>
+  <!-- 未登录部分结尾 -->
   <!-- 中间部分 -->
   <van-grid class="data-info" :border='false'>
   <van-grid-item class="data-info-item"><div slot="text">
@@ -41,11 +49,16 @@
   <!-- 退出登录开始 -->
   <van-cell title="消息通知" is-link to="/" />
   <van-cell title="小智同学" is-link to="/" />
-  <van-cell title="退出登录" />
+  <!-- 如果用户有效，则是登录状态 -->
+  <van-cell
+  @click="OutLogin"
+  v-if="user"
+  title="退出登录" />
   <!-- 退出登录结束 -->
   </div>
 </template>
 <script>
+import { mapState } from 'vuex'
 export default {
   name: 'MyIndex',
   components: {},
@@ -53,15 +66,47 @@ export default {
   data () {
     return {}
   },
-  computed: {},
+  computed: {
+    // 将容器中的数据映射到本地
+    ...mapState(['user'])
+  },
   watch: {},
   created () {},
   mounted () {},
-  methods: {}
+  methods: {
+    // 点击之后弹出弹框，询问是否需要退出？
+    OutLogin () {
+      this.$dialog.confirm({
+        title: '退出提示',
+        message: '确认退出吗'
+      })
+        .then(() => {
+        // 成功 将容器中token数据清空
+          this.$store.commit('setUser', null)
+        })
+        .catch(() => {
+        // 失败
+          this.$store.commit('setUser', null)
+        })
+    }
+  }
 }
 </script>
 <style scoped lang="less">
 .my-container {
+  .not-login{
+    height: 180px;
+    background: url('./banner.png') no-repeat;
+    background-size: cover;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-content: center;
+    .mobile{
+      width: 66px;
+      height: 66px;
+    }
+  }
   .my-info{
     background: url('./banner.png') no-repeat;
     background-size: cover;
