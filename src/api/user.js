@@ -1,6 +1,6 @@
 import request from '@/utils/request'
 // 在容器中使用store
-import store from '@/store/'
+// import store from '@/store/'
 // 登录信息请求
 export const login = data => {
   return request({
@@ -20,9 +20,9 @@ export const OnSendSms = mobile => {
 export const GetCurrentUser = () => {
   return request({
     method: 'GET',
-    url: '/app/v1_0/user',
-    headers: {
-      Authorization: `Bearer ${store.state.user.token}`
-    }
+    url: '/app/v1_0/user'
+    // headers: {
+    //   Authorization: `Bearer ${store.state.user.token}`
+    // }
   })
 }
