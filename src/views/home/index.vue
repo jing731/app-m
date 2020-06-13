@@ -27,6 +27,9 @@
     <article-list :channel='channel'/>
     <!-- 文章列表 -->
       </van-tab>
+      <!-- 汉堡按钮定位把列表最后的位置给挡住了，解决办法就是在这个
+      添加一个占位符 -->
+      <div slot="nav-right" class="wap-nav-placeholder"></div>
       <div slot="nav-right"
       @click="isChannelEditShow = true"
       class="wap-nav-wrap"
@@ -87,6 +90,11 @@ export default {
 .home-container {
   /deep/ .van-nav-bar_title {
   max-width: none;
+}
+// flex-shrink 表示子项不参与其他子项的分配位置
+.wap-nav-placeholder{
+  width: 33px;
+  flex-shrink: 0;
 }
 .app-nav-btn{
   width: 277px;
