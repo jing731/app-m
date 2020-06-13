@@ -27,6 +27,12 @@
     <article-list :channel='channel'/>
     <!-- 文章列表 -->
       </van-tab>
+      <div slot="nav-right"
+      @click="isChannelEditShow = true"
+      class="wap-nav-wrap"
+      >
+        <van-icon name="wap-nav"/>
+      </div>
     </van-tabs>
     <!-- 标签页滚动结束 -->
     <!-- 弹出层 -->
@@ -105,6 +111,30 @@ export default {
    width: 15px !important;
    height: 3px;
    background: #3296fa;
+ }
+ .wap-nav-wrap{
+   position: fixed;
+   right: 0;
+   width: 33px;
+   height: 43px;
+   background-color: #ffffff;
+   display: flex;
+   justify-content: center;
+   align-content: center;
+   opacity: .9;
+   .van-icon{
+     font-size: 24px;
+   }
+   &:before{
+     content: '';
+     width: 1px;
+     height: 43px;
+     background: url() no-repeat;
+     background-size: contain;
+     position: absolute;
+     left: 0;
+     top: 0;
+   }
  }
 }
 </style>
