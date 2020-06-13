@@ -1,7 +1,7 @@
 import request from '@/utils/request'
 // 在容器中使用store
 // import store from '@/store/'
-// 登录信息请求
+// 登录信息请求   body参数
 export const login = data => {
   return request({
     method: 'POST',
@@ -9,14 +9,14 @@ export const login = data => {
     data
   })
 }
-// 发送验证码信息请求
+// 发送验证码信息请求  路径参数
 export const OnSendSms = mobile => {
   return request({
     method: 'GET',
     url: `/app/v1_0/sms/codes/${mobile}`
   })
 }
-// 获取当前用户信息请求
+// 获取当前用户信息请求  没有参数
 export const GetCurrentUser = () => {
   return request({
     method: 'GET',

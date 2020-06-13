@@ -30,6 +30,7 @@ finished 属性：控制加载结束的状态
   </div>
 </template>
 <script>
+import { getArticles } from '@/api/articles'
 export default {
   name: 'ArticleList',
   components: {},
@@ -53,24 +54,40 @@ export default {
   created () {},
   mounted () {},
   methods: {
-    onLoad () {
+    async onLoad () {
       // 异步更新数据
       // setTimeout 仅做示例，真实场景中一般为 ajax 请求
       // 1.请求获取数据
-      setTimeout(() => {
-        // 2.将数据放到list数组中
-        for (let i = 0; i < 10; i++) {
-          this.list.push(this.list.length + 1)
-        }
-        // 3.加载状态结束，设置本次加载状态结束，它才可以判断是否需要
-        // 加载下一次，否则就会永远的停在这里
-        this.loading = false
-        // 4.数据全部加载完成
-        if (this.list.length >= 40) {
-          // 数据全部加载完成，不再触发加载更多
-          this.finished = true
-        }
-      }, 1000)
+      const { data } = await getArticles({
+        // channel.id是ArticleList中的channel的id
+        channel_id: this.channel.id, // 频道ID
+        timestamp: Date.now(), // 时间戳，请求新的推荐数据传当前的时间戳,
+        // 请求历史推荐传指定的时间戳
+        // timestamp 相当于页码，请求最新数据使用当前最新时间戳，
+        // 下一页数据使用上一次返回的数据中的时间戳
+        with_top: 1 // 是否包含置顶，进入页面第一次请求时要包含置顶文章
+        // 1-包含置顶，0-不包含
+      })
+      console.log(data)
+      console.log(data)
+      // 2.将数据放到list数组中
+      // 3.加载状态结束，设置本次加载状态结束，它才可以判断是否需要
+      // 加载下一次，否则就会永远的停在这里
+      // 4.数据全部加载完成
+      // setTimeout(() => {
+      //   // 2.将数据放到list数组中
+      //   for (let i = 0; i < 10; i++) {
+      //     this.list.push(this.list.length + 1)
+      //   }
+      //   // 3.加载状态结束，设置本次加载状态结束，它才可以判断是否需要
+      //   // 加载下一次，否则就会永远的停在这里
+      //   this.loading = false
+      //   // 4.数据全部加载完成
+      //   if (this.list.length >= 40) {
+      //     // 数据全部加载完成，不再触发加载更多
+      //     this.finished = true
+      //   }
+      // }, 1000)
     }
   }
 }
