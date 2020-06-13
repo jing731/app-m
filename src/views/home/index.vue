@@ -48,19 +48,25 @@
     position="bottom"
     closeable
     style="height: 100%"
-    />
+    ><channel-edit /></van-popup>
+    <!-- 注意：由于弹出层的内容及逻辑过多，为了后期维护方便，所以
+    将弹出层的内容与逻辑单独封装到一个组件
+    封装到单独一个组件的作用：一，重用，二，逻辑过多，为了后期维护方便 -->
     <!-- 弹出层结束 -->
   </div>
 </template>
 <script>
 import { GetChannerls } from '@/api/user'
 // 加载子组件
+import ChannelEdit from './components/channel-edit'
+// 加载子组件
 import ArticleList from './components/article-list'
 export default {
   name: 'HomeIndex',
   components: {
     // 注册子组件
-    ArticleList
+    ArticleList,
+    ChannelEdit
   },
   props: {},
   data () {
@@ -137,7 +143,7 @@ export default {
      content: '';
      width: 1px;
      height: 43px;
-     background: url() no-repeat;
+     background: url('') no-repeat;
      background-size: contain;
      position: absolute;
      left: 0;
