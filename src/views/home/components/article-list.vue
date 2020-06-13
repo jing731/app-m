@@ -32,18 +32,28 @@ finished 属性：控制加载结束的状态
   finished-text="没有更多了"
   @load="onLoad"
   >
-  <van-cell v-for="(article, index) in articles"
+  <!-- 使用，之前遍历的是文章列表，而现在如何遍历由子组件决定 -->
+  <article-item
+  v-for="(article, index) in articles"
   :key="index"
-  :title="article.title" />
+  />
+  <!-- <van-cell v-for="(article, index) in articles"
+  :key="index"
+  :title="article.title" /> -->
   </van-list>
   </van-pull-refresh>
   </div>
 </template>
 <script>
 import { getArticles } from '@/api/articles'
+// 加载子组件
+import ArticleItem from '@/components/article-item'
 export default {
   name: 'ArticleList',
-  components: {},
+  components: {
+    // 注册子组件
+    ArticleItem
+  },
   props: {
     // 子组件声明接收
     channel: {
