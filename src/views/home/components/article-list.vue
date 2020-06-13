@@ -47,8 +47,9 @@ export default {
     return {
       articles: [], // 数据列表
       loading: false, // 控制加载中的loading状态
-      finished: false
+      finished: false,
       // 控制加载结束的状态，当加载结束，不再触发加载更多
+      timestamp: null // 获取下一页的时间戳
     }
   },
   computed: {},
@@ -63,7 +64,8 @@ export default {
       const { data } = await getArticles({
         // channel.id是ArticleList中的channel的id
         channel_id: this.channel.id, // 频道ID
-        timestamp: Date.now(), // 时间戳，请求新的推荐数据传当前的时间戳,
+        // 因为初始值为null，所以如果为null的时候，则使用Date.now()
+        timestamp: this.timestamp || Date.now(), // 时间戳，请求新的推荐数据传当前的时间戳,
         // 请求历史推荐传指定的时间戳
         // timestamp 相当于页码，请求最新数据使用当前最新时间戳，
         // 下一页数据使用上一次返回的数据中的时间戳
@@ -74,10 +76,20 @@ export default {
       // console.log(data)
       // 2.将数据放到list数组中
       // 必须用push，防止覆盖之前的数据
-      this.articles.push(...data.data.results)
+      const { results } = data.data
+      this.articles.push(...results)
       // 3.加载状态结束，设置本次加载状态结束，它才可以判断是否需要
       // 加载下一次，否则就会永远的停在这里
+      this.loading = false
       // 4.数据全部加载完成
+      if (results.length) {
+      // 更新下一页数据
+      // pre_timestamp为后台返回的下一页历史数据的时间戳
+        this.timestamp = data.data.pre_timestamp
+      } else {
+      // 没有数据了，把加载状态设置为结束，不再触发加兹安更多
+        this.finished = true
+      }
       // setTimeout(() => {
       //   // 2.将数据放到list数组中
       //   for (let i = 0; i < 10; i++) {
