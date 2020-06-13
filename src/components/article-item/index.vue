@@ -11,7 +11,7 @@
         >
           <div
           class="cover-warp-item"
-          v-for="(img, index) in articles.cover.images"
+          v-for="(img, index) in article.cover.images"
           :key="index"
           >
             <van-image
@@ -87,6 +87,13 @@ export default {
         height: 73px;
       }
     }
+  }
+  .label-wrap {
+    font-size: 11px;
+    color: #b4b4b4;
+  }
+  .label-warp span {
+    margin-right: 12px;
   }
 }
 </style>

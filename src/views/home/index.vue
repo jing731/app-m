@@ -13,8 +13,9 @@
     </van-nav-bar>
     <!-- 头部部分结束 -->
     <!-- 标签页滚动 -->
-    <van-tabs v-model="active">
+    <van-tabs v-model="active" class="channel-tabs">
     <van-tab
+    class="tab-item"
     :title="channel.name"
     v-for="channel in loadChanneles"
     :key="channel.id"
@@ -79,6 +80,18 @@ export default {
   .van-button_text {
     font-size: 14px;
   }
+ }
+ .channel-tabs{
+   /deep/ .van-tab{
+     border-right: 1px solid #edeff3;
+     border-bottom: 1px solid #edeff3;
+   }
+ }
+ /deep/ .van-tabs__line{
+   bottom: 20px;
+   width: 15px !important;
+   height: 3px;
+   background: #3296fa;
  }
 }
 </style>
