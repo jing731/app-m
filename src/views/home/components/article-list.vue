@@ -25,7 +25,9 @@ finished 属性：控制加载结束的状态
   finished-text="没有更多了"
   @load="onLoad"
   >
-  <van-cell v-for="item in list" :key="item" :title="item" />
+  <van-cell v-for="(article, index) in articles"
+  :key="index"
+  :title="article.title" />
   </van-list>
   </div>
 </template>
@@ -43,7 +45,7 @@ export default {
   },
   data () {
     return {
-      list: [], // 数据列表
+      articles: [], // 数据列表
       loading: false, // 控制加载中的loading状态
       finished: false
       // 控制加载结束的状态，当加载结束，不再触发加载更多
@@ -68,9 +70,11 @@ export default {
         with_top: 1 // 是否包含置顶，进入页面第一次请求时要包含置顶文章
         // 1-包含置顶，0-不包含
       })
-      console.log(data)
-      console.log(data)
+      // console.log(data)
+      // console.log(data)
       // 2.将数据放到list数组中
+      // 必须用push，防止覆盖之前的数据
+      this.articles.push(...data.data.results)
       // 3.加载状态结束，设置本次加载状态结束，它才可以判断是否需要
       // 加载下一次，否则就会永远的停在这里
       // 4.数据全部加载完成
