@@ -7,15 +7,16 @@
       <div slot="label">
         <div
         v-if="article.cover.type === 3"
-        class="cover-wrap">
-          <div class="cover-warp-item"
-          width="116"
-          height="73"
-          :v-for="(img,index) in article.cover.images"
+        class="cover-wrap"
+        >
+          <div
+          class="cover-warp-item"
+          v-for="(img, index) in articles.cover.images"
+          :key="index"
           >
             <van-image
             class="cover-item"
-            :key="index"
+            fit='cover'
             :src="img" />
           </div>
         </div>
@@ -69,12 +70,18 @@ export default {
     margin-left: 12px;
   }
   .cover-wrap{
+    padding: 15px 0;
     // 父容器flex布局
     display: flex;
     .cover-warp-item{
      // 子容器各占一份
       flex: 1;
       height: 73px;
+      // 给图片添加一些边距
+      // & 就是父元素 即cover-warp-item
+      &:not(:last-child){
+        padding-right: 4px;
+      }
       .cover-item{
         width: 100%;
         height: 73px;
