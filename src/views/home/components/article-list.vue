@@ -19,6 +19,13 @@ finished 属性：控制加载结束的状态
 在每次请求完毕后，需要手动将 loading 设置为 false，表示本次加载结束
 所有数据加载结束，finished 为 true，此时不会触发 load 事件 -->
   <div class="article-list">
+    <!-- 下拉刷新 -->
+    <van-pull-refresh v-model="isRefreshing"
+    @refresh="onRefresh"
+    :success-text="refreshSuccessText"
+    success-duration='2000'
+    >
+    <!-- 内容区域 -->
     <van-list
   v-model="loading"
   :finished="finished"
@@ -29,6 +36,7 @@ finished 属性：控制加载结束的状态
   :key="index"
   :title="article.title" />
   </van-list>
+  </van-pull-refresh>
   </div>
 </template>
 <script>
@@ -49,7 +57,9 @@ export default {
       loading: false, // 控制加载中的loading状态
       finished: false,
       // 控制加载结束的状态，当加载结束，不再触发加载更多
-      timestamp: null // 获取下一页的时间戳
+      timestamp: null, // 获取下一页的时间戳
+      isRefreshing: false, // 下拉刷新的loading状态
+      refreshSuccessText: '' // 下拉刷新的动态文本
     }
   },
   computed: {},
@@ -104,6 +114,23 @@ export default {
       //     this.finished = true
       //   }
       // }, 1000)
+    },
+    // 下拉刷新会触发此函数
+    async onRefresh () {
+      // console.log('pp')
+      // 1，下拉刷新，请求数据
+      const { data } = await getArticles({
+        channel_id: this.channel.id, // 频道ID
+        timestamp: Date.now(), // 只要是最新的时间戳，下拉刷新就会有新的数据
+        with_top: 1
+      })
+      // 2,将数据往顶部追加
+      const { results } = data.data
+      this.articles.unshift(...results)
+      // 3,关闭下拉刷新的状态
+      this.isRefreshing = false
+      // 下拉刷新的文本
+      this.refreshSuccessText = `下拉刷新了${results.length}条数据`
     }
   }
 }
