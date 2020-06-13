@@ -8,11 +8,13 @@
         <div
         v-if="article.cover.type === 3"
         class="cover-wrap">
-          <div class="cover-warp-item">
+          <div class="cover-warp-item"
+          width="116"
+          height="73"
+          :v-for="(img,index) in article.cover.images"
+          >
             <van-image
-            width="116"
-            height="73"
-            :v-for="(img,index) in article.cover.images"
+            class="cover-item"
             :key="index"
             :src="img" />
           </div>
@@ -65,6 +67,19 @@ export default {
     width: 116px;
     height: 116px;
     margin-left: 12px;
+  }
+  .cover-wrap{
+    // 父容器flex布局
+    display: flex;
+    .cover-warp-item{
+     // 子容器各占一份
+      flex: 1;
+      height: 73px;
+      .cover-item{
+        width: 100%;
+        height: 73px;
+      }
+    }
   }
 }
 </style>
