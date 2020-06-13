@@ -29,6 +29,18 @@
       </van-tab>
     </van-tabs>
     <!-- 标签页滚动结束 -->
+    <!-- 弹出层 -->
+    <!-- 因为弹出层不属于任何元素的孩子 -->
+    <!-- get-container="body" -->
+    <van-popup
+    v-model="isChannelEditShow"
+    close-icon-position="top-left"
+    get-container="body"
+    position="bottom"
+    closeable
+    style="height: 100%"
+    />
+    <!-- 弹出层结束 -->
   </div>
 </template>
 <script>
@@ -45,7 +57,8 @@ export default {
   data () {
     return {
       active: 2,
-      loadChanneles: [] // 列表频道的数据
+      loadChanneles: [], // 列表频道的数据
+      isChannelEditShow: false
     }
   },
   computed: {},
