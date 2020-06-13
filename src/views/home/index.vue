@@ -18,7 +18,13 @@
     :title="channel.name"
     v-for="channel in loadChanneles"
     :key="channel.id"
-    >{{ channel.name }}的内容
+    >
+    <!-- 文章列表 -->
+    <!-- 使用组件 -->
+    <!-- <article-list /> -->
+    <!-- 将当前的组件传递给文章列表，遍历文章列表 -->
+    <article-list :channel='channel'/>
+    <!-- 文章列表 -->
       </van-tab>
     </van-tabs>
     <!-- 标签页滚动结束 -->
@@ -26,9 +32,14 @@
 </template>
 <script>
 import { GetChannerls } from '@/api/user'
+// 加载子组件
+import ArticleList from './components/article-list'
 export default {
   name: 'HomeIndex',
-  components: {},
+  components: {
+    // 注册子组件
+    ArticleList
+  },
   props: {},
   data () {
     return {
