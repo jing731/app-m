@@ -1,7 +1,9 @@
 <template>
   <div class="article-item">
     <van-cell class="article-item">
-      <div slot="title">{{ article.title }}</div>
+      <!-- 注意标题太长的时候，需要将部分标题省略 -->
+      <!-- van-multi-ellipsis--l3 为自带的内部样式 -->
+      <div slot="title" class="title van-multi-ellipsis--l3">{{ article.title }}</div>
       <div slot="label">
         <div
         v-if="article.cover.type === 3"
@@ -22,8 +24,7 @@
         </div>
       </div>
       <van-image v-if="article.cover.type === 1"
-      width="116"
-      height="73"
+      class="right-cover"
       :src="article.cover.images[0]" />
     </van-cell>
   </div>
@@ -48,3 +49,22 @@ export default {
   methods: {}
 }
 </script>
+<style scoped lang="less">
+.article-item{
+  .title{
+    font-size: 16px;
+    color: #3a3a3a;
+  }
+  .right-cover{
+    width: 116px;
+    height: 73px;
+  }
+//   去除右侧的图片的flex：1，平均分不好看
+  /deep/ .van-cell_value{
+    flex: unset;
+    width: 116px;
+    height: 116px;
+    margin-left: 12px;
+  }
+}
+</style>
