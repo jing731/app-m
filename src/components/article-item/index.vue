@@ -5,7 +5,12 @@
 export default {
   name: 'ArticleItem',
   components: {},
-  props: {},
+  props: {
+    article: {
+      type: Object,
+      required: true
+    }
+  },
   data () {
     return {}
   },

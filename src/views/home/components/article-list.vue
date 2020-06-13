@@ -33,9 +33,12 @@ finished 属性：控制加载结束的状态
   @load="onLoad"
   >
   <!-- 使用，之前遍历的是文章列表，而现在如何遍历由子组件决定 -->
+  <!-- 将文章列表项传给子组件 -->
+  <!-- :article='article' -->
   <article-item
   v-for="(article, index) in articles"
   :key="index"
+  :article='article'
   />
   <!-- <van-cell v-for="(article, index) in articles"
   :key="index"
