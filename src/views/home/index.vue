@@ -143,7 +143,7 @@ export default {
      content: '';
      width: 1px;
      height: 43px;
-     background: url('') no-repeat;
+    //  background: url('') no-repeat;
      background-size: contain;
      position: absolute;
      left: 0;
