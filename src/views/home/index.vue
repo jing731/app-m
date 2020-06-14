@@ -48,7 +48,11 @@
     position="bottom"
     closeable
     style="height: 100%"
-    ><channel-edit /></van-popup>
+    >
+    <!-- 将数据列表传给子组件 -->
+    <channel-edit
+    :user-channels='loadChanneles'
+    /></van-popup>
     <!-- 注意：由于弹出层的内容及逻辑过多，为了后期维护方便，所以
     将弹出层的内容与逻辑单独封装到一个组件
     封装到单独一个组件的作用：一，重用，二，逻辑过多，为了后期维护方便 -->
